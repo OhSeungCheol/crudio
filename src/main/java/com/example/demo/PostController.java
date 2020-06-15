@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     @RequestMapping("/create")
     public String create(){
-        return "Success!!";
+        return "Success!!!!!!!!!";
     }
 }
