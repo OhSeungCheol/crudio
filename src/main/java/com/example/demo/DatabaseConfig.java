@@ -28,6 +28,9 @@ public class DatabaseConfig implements ApplicationRunner {
 
             String sql2 = "INSERT INTO TESTTABLE VALUES(1, 'value')";
             statement.execute(sql2);
+
+            String sql3 = "INSERT INTO POST VALUES(0, 'contents', '2020-01-31', 'title', 'writer')";
+            statement.execute(sql3);
         } catch (Exception e){
             System.out.println(e);
         }
