@@ -1,6 +1,6 @@
-package com.example.demo;
+package com.example.demo.ticket;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,30 +8,30 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
-public class PostController {
-
-    @Autowired
-    private PostRepository postRepository;
+@RequestMapping("/ticket")
+@RequiredArgsConstructor
+public class TicketController {
+    private final TicketService ticketService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public void create() {
-        Post post = new Post("title", "content", new Date(), "writer");
-        postRepository.save(post);
+        Ticket ticket = new Ticket("title", "content", new Date(), "writer");
+        Ticket newTicket = ticketService.create(ticket);
+        return;
     }
 
     @RequestMapping(value = "/readAll", method = RequestMethod.GET)
     @ResponseBody
-    public List<Post> readAll(){
-        List<Post> postList = postRepository.findAll();
-        return postList;
+    public List<Ticket> readAll(){
+        List<Ticket> ticketList = ticketService.readAll();
+        return ticketList;
     }
 
     @RequestMapping(value = "/readOne", method = RequestMethod.GET)
     @ResponseBody
-    public Post readOne(){
-        return postRepository.findById(0L).orElseGet(Post::new);
+    public Ticket readOne(){
+        return ticketService.readOne(0L);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)

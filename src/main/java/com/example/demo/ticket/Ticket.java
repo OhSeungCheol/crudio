@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.ticket;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-public class Post {
+public class Ticket {
 
     @Id
     @GeneratedValue
@@ -19,14 +19,14 @@ public class Post {
     private Date date;
     private String writer;
 
-    public Post(String title, String content, Date date, String writer){
+    public Ticket(String title, String content, Date date, String writer){
         this.title = title;
         this.content = content;
         this.date = date;
         this.writer = writer;
     }
 
-    public Post(){}
+    public Ticket(){}
 
     public Long getId() {
         return id;
