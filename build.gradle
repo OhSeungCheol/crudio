@@ -28,6 +28,11 @@ dependencies {
     // jsp
     implementation 'javax.servlet:jstl'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    // jsp
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // Spring Security
 }
 
 test {
