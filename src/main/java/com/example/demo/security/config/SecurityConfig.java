@@ -1,10 +1,12 @@
 package com.example.demo.security.config;
 
 import antlr.BaseAST;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -20,8 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         String password = passwordEncoder().encode("1111");
         // 인메모리 유저 정보 생성
         auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
-        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER");
-        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER", "USER");
+        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "MANAGER", "USER");
     }
 
     // 평문인 비밀번호를 암호화하는 인코더
@@ -44,5 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .and()
                 .formLogin()
                 ;
+    }
+
+    // 접근 시 인증을 요구하지 않도록 webIgnore 설정
+    // 정적 리소스 요청 시 인증 제외
+    @Override
+    public void configure(WebSecurity web){
+        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 }
