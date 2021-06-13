@@ -1,6 +1,5 @@
 package com.example.demo.security.config;
 
-import antlr.BaseAST;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,15 +15,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+    // 커스텀 인증 클래스 등록
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 인코딩한 패스워드 스트링 생성
-        String password = passwordEncoder().encode("1111");
-        // 인메모리 유저 정보 생성
-        auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
-        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER", "USER");
-        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "MANAGER", "USER");
+        auth.authenticationProvider(customAuthenticationProvider());
     }
+
+    @Bean
+    CustomAuthenticationProvider customAuthenticationProvider(){
+        return new CustomAuthenticationProvider();
+    }
+
+//    인메모리 계정 생성
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        // 인코딩한 패스워드 스트링 생성
+//        String password = passwordEncoder().encode("1111");
+//        // 인메모리 유저 정보 생성
+//        auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
+//        auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER", "USER");
+//        auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "MANAGER", "USER");
+//    }
 
     // 평문인 비밀번호를 암호화하는 인코더
     @Bean
@@ -37,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected  void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/security").hasRole("geust")
                 .antMatchers("/**/*").permitAll()
 //                .antMatchers("/ticket/readAll").hasRole("USER")
 //                .antMatchers("/ticket/readOne").hasRole("MANAGER")
