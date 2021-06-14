@@ -1,9 +1,11 @@
 package com.example.demo.security.config;
 
 
+import com.example.demo.security.common.FormWebAuthenticationDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +33,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 패스워드가 일치하지 않을 경우 BadCredentialsException 발생 - PASSWORD 검증
         if(!passwordEncoder.matches(password, accountContext.getAccount().getPassword())){
             throw new BadCredentialsException("BadCredentialsException");
+        }
+
+        // 커스텀 : 시크릿 키라는 파라미터를 인증에서 사용
+        FormWebAuthenticationDetails formWebAuthenticationDetails = (FormWebAuthenticationDetails) authentication.getDetails();
+        String secretKey = formWebAuthenticationDetails.getSecretKey();
+        if(secretKey == null){
+            System.out.println("InsufficientAuthenticationException : secretKey");
+//            throw new InsufficientAuthenticationException("InsufficientAuthenticationException");
         }
 
         // 인증에 성공!

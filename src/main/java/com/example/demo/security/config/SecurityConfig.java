@@ -1,8 +1,10 @@
 package com.example.demo.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+    @Autowired
+    AuthenticationDetailsSource authenticationDetailsSource;
     // 커스텀 인증 클래스 등록
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
         .and()
                 .formLogin()
+                .authenticationDetailsSource(authenticationDetailsSource)
 //                .loginPage("/login")
 //                .loginProcessingUrl("/login_proc")
 //                .defaultSuccessUrl("/")
