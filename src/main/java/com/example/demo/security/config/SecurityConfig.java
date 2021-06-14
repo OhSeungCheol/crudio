@@ -12,10 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    @Autowired
+    AuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
     AuthenticationDetailsSource authenticationDetailsSource;
@@ -62,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .and()
                 .formLogin()
                 .authenticationDetailsSource(authenticationDetailsSource)
+                .successHandler(customAuthenticationSuccessHandler)
 //                .loginPage("/login")
 //                .loginProcessingUrl("/login_proc")
 //                .defaultSuccessUrl("/")
