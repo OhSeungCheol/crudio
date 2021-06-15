@@ -1,5 +1,7 @@
 package com.example.demo.security.config;
 
+import com.example.demo.security.common.FormAuthenticationDetailsSource;
+import com.example.demo.security.handler.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -26,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     AuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Autowired
-    AuthenticationDetailsSource authenticationDetailsSource;
+    FormAuthenticationDetailsSource formAuthenticationDetailsSource;
+
     // 커스텀 인증 클래스 등록
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -61,22 +65,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests()
                 .antMatchers("/security").hasRole("geust")
-                .antMatchers("/**/*").permitAll()
 //                .antMatchers("/ticket/readAll").hasRole("USER")
 //                .antMatchers("/ticket/readOne").hasRole("MANAGER")
 //                .antMatchers("/test").hasRole("ADMIN")
+                .antMatchers("/**/*").permitAll()
                 .anyRequest().authenticated()
 
         .and()
                 .formLogin()
-                .authenticationDetailsSource(authenticationDetailsSource)
-                .successHandler(customAuthenticationSuccessHandler)
-                .failureHandler(customAuthenticationFailureHandler)
 //                .loginPage("/login")
 //                .loginProcessingUrl("/login_proc")
 //                .defaultSuccessUrl("/")
-//                .permitAll()
+                .authenticationDetailsSource(formAuthenticationDetailsSource)
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
+                .permitAll()
+        .and()
+            .exceptionHandling()
+            .accessDeniedHandler(accessDeniedHandler())
                 ;
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler(){
+        CustomAccessDeniedHandler customAccessDeniedHandler = new CustomAccessDeniedHandler();
+        customAccessDeniedHandler.setErrorPage("/denied");
+        return customAccessDeniedHandler;
     }
 
     // 접근 시 인증을 요구하지 않도록 webIgnore 설정
