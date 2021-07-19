@@ -37,6 +37,11 @@ dependencies {
     // ModelMapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.1.1'
     // ModelMapper
+
+    // JUnit 5
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    // JUnit 5
+
 }
 
 test {
