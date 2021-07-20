@@ -67,4 +67,10 @@ public class Ticket {
     public void setWriter(String writer) {
         this.writer = writer;
     }
+
+    public void throwException(Boolean isException) {
+        if(isException){
+            throw new IllegalArgumentException("test exception");
+        }
+    }
 }
