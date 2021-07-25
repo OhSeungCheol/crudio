@@ -2,16 +2,20 @@ package com.example.demo.ticket;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.condition.EnabledOnJre;
+import org.junit.jupiter.api.condition.JRE;
 
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 public class TicketTest {
 
     @Test
     @DisplayName("테스트 케이스 이름")
-    public void create() {
+    @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9})
+    public void testTemplate() {
         Ticket ticket = new Ticket();
         assertNotNull(ticket);
 
@@ -37,6 +41,16 @@ public class TicketTest {
         assertTimeout(Duration.ofSeconds(10), () -> new Ticket());
         // 기대 시간이 초과하면 실패하며 바로 종료, 단 다른 스레드에서 로직이 실행되기 때문에 스레드 관리가 필요
         assertTimeoutPreemptively(Duration.ofSeconds(10), () -> new Ticket());
+
+        //// 조건부 테스팅
+        // 조건을 만족하지 않으면 이후 테스트는 진행되지 않음
+        assumeTrue(true);
+        // 조건을 만족하면 괄호 안의 테스트를 진행
+        assumingThat((true), ()-> {
+            System.out.println("tets");
+            assertEquals("a", "a");
+        });
+
     }
 
     // 테스트 케이스 중 테스트를 실행하지 않음
