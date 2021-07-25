@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.condition.EnabledOnJre;
 import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.Duration;
 
@@ -11,6 +13,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
 public class TicketTest {
+
+    @DisplayName("반복 테스트")
+    @RepeatedTest(value = 10, name = "{displayName}, {currentRepetition}/{totalRepetitions}")
+    public void repeatedTest(RepetitionInfo repetitionInfo){
+        System.out.println("repeatedTest : " + repetitionInfo.getCurrentRepetition());
+        System.out.println("Total : " + repetitionInfo.getTotalRepetitions());
+    }
+
+    @DisplayName("반복 파라미터 테스트")
+    @ParameterizedTest
+    @ValueSource(strings = {"aa", "bb", "cc", "dd"})
+    void parameterizedTest(String message){
+        System.out.println(message);
+    }
+    
 
     @Test
     @DisplayName("테스트 케이스 이름")
@@ -63,8 +80,8 @@ public class TicketTest {
     }
 
     // 모든 테스트를 실행하기전 한번 실행
-    @BeforeEach
-    public void beforeAll() {
+    @BeforeAll
+    static void beforeAll() {
         System.out.println("before all");
     }
 
@@ -77,13 +94,13 @@ public class TicketTest {
     // 각 테스트를 실행하기전 한번 실행
     @BeforeEach
     void beforeEach() {
-        System.out.println("before after");
+        System.out.println("before each");
     }
 
     // 각 테스트를 실행하고 나서 한번 실행
     @AfterEach
     void afterEach() {
-
+        System.out.println("after each");
     }
 
 
