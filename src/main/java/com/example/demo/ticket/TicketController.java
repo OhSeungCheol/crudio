@@ -1,5 +1,6 @@
 package com.example.demo.ticket;
 
+import com.example.sub.CommonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TicketController {
     private final TicketService ticketService;
+
+    // 서브 프로젝트 공통 오브젝트 사용 예시   
+    CommonObject commonObject = new CommonObject();
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
