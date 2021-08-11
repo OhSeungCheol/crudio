@@ -14,10 +14,9 @@ public class TestController {
     public final TestService testService;
     public final ApplicationContext applicationContext;
 
-
     @GetMapping("asdasdasd")
     public void asd(){
-        Integer a = testService.printTest("myString", 10);
+        testService.printTest("myString", 10);
     }
 
     @GetMapping(value = "/test1")

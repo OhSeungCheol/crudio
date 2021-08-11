@@ -19,6 +19,10 @@ import javax.annotation.Resource;
 public class TestService {
     private TestService testService;
 
+    @PrintString
+    public void printTest(String word, Integer number){
+        System.out.println(word + " " + number);
+    }
 
     @Cacheable("test2")
     public Integer test2(){
