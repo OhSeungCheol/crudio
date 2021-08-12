@@ -3,20 +3,14 @@ package com.example.demo.test;
 import com.example.demo.annotation.PrintString;
 import com.example.demo.util.CacheHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
-
-import javax.annotation.Resource;
 
 @Service
 @RequiredArgsConstructor
 public class TestService {
-    private TestService testService;
+    private final CacheHelper cacheHelper;
 
     @PrintString(value="aroundTest")
     public void printTest(String word, Integer number){
