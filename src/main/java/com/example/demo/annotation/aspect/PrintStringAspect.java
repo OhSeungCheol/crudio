@@ -2,7 +2,9 @@ package com.example.demo.annotation.aspect;
 
 import com.example.demo.annotation.PrintString;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
@@ -25,5 +27,14 @@ public class PrintStringAspect {
         Object[] args = joinPoint.getArgs();
         System.out.println("args :" + Arrays.toString(args));
         System.out.println("After");
+    }
+
+    @Around(value = "@annotation(printString)")
+    public void printAround(ProceedingJoinPoint proceedingJoinPoint, PrintString printString) throws Throwable {
+        String annotationParameter = printString.value();
+        System.out.println("Before Around");
+        System.out.println("annotationParameter : " + annotationParameter);
+        proceedingJoinPoint.proceed();
+        System.out.println("After Around");
     }
 }

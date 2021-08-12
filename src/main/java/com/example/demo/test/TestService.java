@@ -1,10 +1,9 @@
 package com.example.demo.test;
 
 import com.example.demo.annotation.PrintString;
-import com.example.demo.ticket.TicketService;
+import com.example.demo.util.CacheHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
 public class TestService {
     private TestService testService;
 
-    @PrintString
+    @PrintString(value="aroundTest")
     public void printTest(String word, Integer number){
         System.out.println(word + " " + number);
     }
