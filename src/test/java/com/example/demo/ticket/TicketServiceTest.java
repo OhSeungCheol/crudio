@@ -58,10 +58,20 @@ class TicketServiceTest {
         ticketRepository.deleteById(2L);
 
 
-        // Mock 의 특정 메소드 호출에 대한 정보 조회 및 검증        
+        // Mock 의 특정 메소드 호출에 대한 정보 조회 및 검증
         ticketRepository.deleteAll();
         //        Mockito.verify(ticketRepository, Mockito.times(2)).deleteAll(Mockito.any());
         Mockito.verify(ticketRepository, Mockito.never()).deleteAll(Mockito.any());
 
+    }
+
+    @Test
+    public void givenWhenThenExample(){
+        // Given : 특정 환경
+        Ticket ticket = new Ticket();
+        // When : 특정 상황
+        Ticket loadTicket = ticketRepository.findById(ticket.getId()).orElse(null);
+        // Then : 예상 결과
+        assertNull(loadTicket);
     }
 }
