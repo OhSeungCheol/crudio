@@ -3,6 +3,7 @@ package com.example.demo.ticket;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -55,5 +56,12 @@ class TicketServiceTest {
            ticketRepository.deleteById(1L);
         });
         ticketRepository.deleteById(2L);
+
+
+        // Mock 의 특정 메소드 호출에 대한 정보 조회 및 검증        
+        ticketRepository.deleteAll();
+        //        Mockito.verify(ticketRepository, Mockito.times(2)).deleteAll(Mockito.any());
+        Mockito.verify(ticketRepository, Mockito.never()).deleteAll(Mockito.any());
+
     }
 }
