@@ -76,7 +76,7 @@ dependencies {
     // 커스텀 서브 모듈 추가
 
     // RabbitMQ
-//    implementation 'org.springframework.amqp:spring-rabbit-test'
+    implementation 'org.springframework.amqp:spring-rabbit-test'
     // RabbitMQ
 }
 
