@@ -1,10 +1,17 @@
 package com.example.demo.test;
 
-import com.example.demo.annotation.PrintString;
+import com.example.demo.stock.Price;
+import com.example.demo.stock.Stock;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,10 +21,8 @@ public class TestController {
     public final TestService testService;
     public final ApplicationContext applicationContext;
 
-    @GetMapping("asdasdasd")
-    public void asd(){
-        testService.printTest("myString", 10);
-    }
+    @Value("${version}")
+    private String version;
 
     @GetMapping(value = "/test1")
     public void test(){

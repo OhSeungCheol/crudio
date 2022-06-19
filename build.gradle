@@ -8,6 +8,17 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+ext {
+    index = '1'
+    string = "gradleString"
+}
+
+processResources {
+    filesMatching('**/application.properties') {
+        expand(project.properties)
+    }
+}
+
 // 서브 모듈 설정
 subprojects {
     apply plugin: 'java'
@@ -63,6 +74,10 @@ dependencies {
     // 커스텀 서브 모듈 추가
     compile project(":module-common")
     // 커스텀 서브 모듈 추가
+
+    // RabbitMQ
+//    implementation 'org.springframework.amqp:spring-rabbit-test'
+    // RabbitMQ
 }
 
 test {
