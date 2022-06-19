@@ -1,13 +1,11 @@
 package com.example.demo.test;
 
-import com.example.demo.stock.Price;
-import com.example.demo.stock.Stock;
+import com.example.demo.test.stock.Price;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TestController {
     public final TestService testService;
     public final ApplicationContext applicationContext;
+    private static RestTemplate restTemplate;
 
     @Value("${version}")
     private String version;
@@ -29,6 +28,42 @@ public class TestController {
         String a = testService.testOut();
         System.out.println(a);
     }
+
+    @GetMapping("asdasdasd")
+    public void asd() {
+
+        int SubNum = 123;
+        int Pnum = 1;
+        Object Pcode = "코드";
+//        Object requestDto = SubmitData.builder()
+//                .SubNum(SubNum)
+//                .Pnum(Pnum)
+//                .Pcode(Pcode)
+//                .build();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        HttpEntity<Object> entity = new HttpEntity<>(Pcode, headers);
+
+//        String url = "http://localhost:8080/send";
+//        String url = "http://api.plos.org/search?q=title:DNA";
+        String url = "https://api.finance.naver.com/siseJson.naver?symbol=252670&requestType=1&startTime=20210131&endTime=20210412&timeframe=day";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response
+                = restTemplate.getForEntity(url, String.class);
+
+        Price price = new Price();
+        price.setStartPrice(2000);
+        price.setEndPrice(2100);
+
+        if(price.isFivePercentProfit()){
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+        System.out.println("test");
+    }
+
 
     @GetMapping("/test")
     public void test(HttpServletResponse response) {
