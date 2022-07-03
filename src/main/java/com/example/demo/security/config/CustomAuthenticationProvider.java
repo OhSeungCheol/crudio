@@ -27,11 +27,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String)authentication.getCredentials();
 
-        // username 을 기반으로 계정 정보 조회 - ID 검증
+        // ID 검증 -> username 을 기반으로 계정 정보 조회
         AccountContext accountContext = (AccountContext)customUserDetailService.loadUserByUsername(username);
-
-        // 패스워드가 일치하지 않을 경우 BadCredentialsException 발생 - PASSWORD 검증
-        if(!passwordEncoder.matches(password, accountContext.getAccount().getPassword())){
+        // PASSWORD 검증 -> 패스워드가 일치하지 않을 경우 BadCredentialsException 발생
+        if(!passwordEncoder.matches(password, passwordEncoder.encode(accountContext.getAccount().getPassword()))){
             throw new BadCredentialsException("BadCredentialsException");
         }
 
