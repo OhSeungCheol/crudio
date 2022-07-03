@@ -31,26 +31,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     FormAuthenticationDetailsSource formAuthenticationDetailsSource;
 
-    // 커스텀 인증 클래스 등록
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(customAuthenticationProvider());
-//    }
-
-    @Bean
-    CustomAuthenticationProvider customAuthenticationProvider(){
-        return new CustomAuthenticationProvider();
-    }
-
-//    인메모리 계정 생성
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //// 커스텀 인증 클래스 등록
+        auth.authenticationProvider(customAuthenticationProvider());
+
+        //// 인메모리 계정 생성
         // 인코딩한 패스워드 스트링 생성
         String password = passwordEncoder().encode("1111");
         // 인메모리 유저 정보 생성
         auth.inMemoryAuthentication().withUser("user").password(password).roles("USER");
         auth.inMemoryAuthentication().withUser("manager").password(password).roles("MANAGER", "USER");
         auth.inMemoryAuthentication().withUser("admin").password(password).roles("ADMIN", "MANAGER", "USER");
+        // authenticationProvider 에서 먼저 인증을 진행하고 나서 실패하면, 인메모리 인증을 진행함
+    }
+
+    @Bean
+    CustomAuthenticationProvider customAuthenticationProvider(){
+        return new CustomAuthenticationProvider();
     }
 
     // 평문인 비밀번호를 암호화하는 인코더
