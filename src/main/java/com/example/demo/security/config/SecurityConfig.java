@@ -61,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected  void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
 //                .antMatchers("/security").hasRole("geust")
 //                .antMatchers("/ticket/readAll").hasRole("USER")
