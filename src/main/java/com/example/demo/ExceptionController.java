@@ -9,7 +9,7 @@ public class ExceptionController implements ErrorController {
 
     @GetMapping("/error")
     public String redirectRoot() {
-        return "index.html";
+        return "forward:/index.html";
     }
 
     @Override
