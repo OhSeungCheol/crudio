@@ -1,5 +1,6 @@
 package com.example.demo.security.handler;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
@@ -18,16 +19,14 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
+        // TODO : errorMessage에 담아서 클라이언트에 전달
         String errorMessage = "Invalid Username or Password";
-
         if(exception instanceof BadCredentialsException){
             errorMessage = "Invalid Username or Password";
         } else if(exception instanceof InsufficientAuthenticationException){
             errorMessage = "Invalid Secret Key";
         }
 
-        setDefaultFailureUrl("/login?message=" + exception.getMessage());
-
-        super.onAuthenticationFailure(request, response, exception);
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
     }
 }
