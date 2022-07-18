@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -19,20 +19,11 @@ public class DatabaseConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws SQLException {
         try(Connection connection = dataSource.getConnection()){
+            System.out.println("----- DB Connection Info -------");
             System.out.println(connection.getMetaData().getURL());
             System.out.println(connection.getMetaData().getUserName());
-
-            Statement statement = connection.createStatement();
-            String sql = "CREATE TABLE TESTTABLE(ID INTEGER NOT NULL, VALUE VARCHAR(255), PRIMARY KEY (ID) )";
-            statement.executeUpdate(sql);
-
-            String sql2 = "INSERT INTO TESTTABLE VALUES(1, 'value')";
-            statement.execute(sql2);
-
-            String sql3 = "INSERT INTO TICKET VALUES(0, 'contents', '2020-01-31', 'title', 'writer')";
-            statement.execute(sql3);
         } catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 }
