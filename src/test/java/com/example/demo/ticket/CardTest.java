@@ -1,5 +1,6 @@
 package com.example.demo.ticket;
 
+import com.example.demo.entity.Card;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.condition.EnabledOnJre;
@@ -12,7 +13,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
-public class TicketTest {
+public class CardTest {
 
     @DisplayName("반복 테스트")
     @RepeatedTest(value = 10, name = "{displayName}, {currentRepetition}/{totalRepetitions}")
@@ -33,31 +34,31 @@ public class TicketTest {
     @DisplayName("테스트 케이스 이름")
     @EnabledOnJre({JRE.JAVA_8, JRE.JAVA_9})
     public void testTemplate() {
-        Ticket ticket = new Ticket();
-        assertNotNull(ticket);
+        Card card = new Card();
+        assertNotNull(card);
 
         // 아래 두 코드는 뒤의 문자열 연산을 무조건 하는지, 실패했을 때만 하는지의 차이가 있다.
-        assertNull(ticket.getId(), "초기 id 값은 Null");
-        assertNull(ticket.getId(), () -> "초기 id 값은 Null");
+        assertNull(card.getId(), "초기 id 값은 Null");
+        assertNull(card.getId(), () -> "초기 id 값은 Null");
 
         // assert 로 선언 시 테스트 케이스가 하나만 실패해도 테스트가 중단됨.
         // 아래처럼 assertAll 로 묶으면, 묶인 모든 테스트 케이스가 도중에 중단되지 않고 실행된다.
         assertAll(
-                () -> assertNull(ticket.getId(), "테스트"),
-                () -> assertNull(ticket.getId(), "테스트"),
-                () -> assertNull(ticket.getId(), "테스트")
+                () -> assertNull(card.getId(), "테스트"),
+                () -> assertNull(card.getId(), "테스트"),
+                () -> assertNull(card.getId(), "테스트")
         );
 
         // 발생하는 예외에 대한 테스트
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> ticket.throwException(Boolean.TRUE));
-        String message = exception.getMessage();
-        assertEquals("test exception", message);
+//        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> card.throwException(Boolean.TRUE));
+//        String message = exception.getMessage();
+//        assertEquals("test exception", message);
 
         //// 걸리는 시간에 대한 테스트
         // 로직을 무조건 끝까지 실행
-        assertTimeout(Duration.ofSeconds(10), () -> new Ticket());
+        assertTimeout(Duration.ofSeconds(10), () -> new Card());
         // 기대 시간이 초과하면 실패하며 바로 종료, 단 다른 스레드에서 로직이 실행되기 때문에 스레드 관리가 필요
-        assertTimeoutPreemptively(Duration.ofSeconds(10), () -> new Ticket());
+        assertTimeoutPreemptively(Duration.ofSeconds(10), () -> new Card());
 
         //// 조건부 테스팅
         // 조건을 만족하지 않으면 이후 테스트는 진행되지 않음
@@ -74,8 +75,8 @@ public class TicketTest {
     @Disabled
     @Test
     public void disabledAnnotationTest() {
-        Ticket ticket = new Ticket();
-        assertNotNull(ticket);
+        Card card = new Card();
+        assertNotNull(card);
         System.out.println("create2");
     }
 
