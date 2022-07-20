@@ -30,8 +30,7 @@ public class CardController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create() {
         Card card = Card.builder()
-                .title("title")
-//                .content("message")
+                .message("message")
                 .date(new Date())
                 .writer("writer")
                 .build();

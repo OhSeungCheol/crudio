@@ -17,7 +17,6 @@ public class Card {
     @Id
     @GeneratedValue
     private Long id;
-    private String title;
     private String message;
     private Date date;
     private String writer;
