@@ -21,20 +21,20 @@ public class CardController {
     @GetMapping("/readPage")
     @ResponseBody
     public List<Card> getTicketList(
-        @RequestParam(defaultValue = "1") Integer pageNo
+            @RequestParam(defaultValue = "1") Integer pageNo
     ){
         List<Card> cardList = cardService.readAll();
         return cardList;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create() {
-        Card card = Card.builder()
-                .message("message")
-                .date(new Date())
-                .writer("writer")
-                .build();
+    public void create(
+            @RequestBody Card card
+    ) throws Exception {
         Card newCard = cardService.create(card);
+        if(newCard == null){
+            throw new Exception("fail to create card");
+        }
     }
 
     @RequestMapping(value = "/readAll", method = RequestMethod.GET)
