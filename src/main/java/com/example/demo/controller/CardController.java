@@ -1,12 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CardResponseDto;
 import com.example.demo.entity.Card;
 import com.example.demo.service.CardService;
 import com.example.sub.CommonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -37,9 +38,13 @@ public class CardController {
 
     @RequestMapping(value = "/readAll", method = RequestMethod.GET)
     @ResponseBody
-    public List<Card> readAll(){
+    public List<CardResponseDto> readAll(){
         List<Card> cardList = cardService.readAll();
-        return cardList;
+        List<CardResponseDto> cardResponseDtoList = new ArrayList<>();
+        for(Card cardEntity : cardList){
+            cardResponseDtoList.add(new CardResponseDto(cardEntity));
+        }
+        return cardResponseDtoList;
     }
 
     @RequestMapping(value = "/readOne", method = RequestMethod.GET)

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Card;
 import com.example.demo.repository.CardRepository;
+import com.example.demo.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
+    private final CommentRepository commentRepository;
 
     public Card create(Card card) {
         return cardRepository.save(card);
