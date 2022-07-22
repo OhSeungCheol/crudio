@@ -27,7 +27,7 @@ public class CardService {
         //
     }
 
-    public void delete(){
-        //
+    public void delete(Long id){
+        cardRepository.deleteById(id);
     }
 }

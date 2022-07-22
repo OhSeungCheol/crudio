@@ -28,9 +28,7 @@ public class CardController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create(
-            @RequestBody Card card
-    ) throws Exception {
+    public void create(@RequestBody Card card) throws Exception {
         Card newCard = cardService.create(card);
         if(newCard == null){
             throw new Exception("fail to create card");
@@ -56,8 +54,8 @@ public class CardController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public void delete(){
-        //
+    public void delete(@RequestBody Long id){
+        cardService.delete(id);
     }
 
 }
